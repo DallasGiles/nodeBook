@@ -34,6 +34,14 @@ app.get('/api/protected', authMiddleware, (req, res) => {
     res.json({ message: 'You have accessed a protected route', user: req.user });
   });
 
+
+
+  //leave this before error handler.
+  app.use((req, res, next) =>{
+    const error = new Error(`Route ${req.originalUrl} not found`);
+    next(error);
+  });
+  
 //error handler must be the last middleware listed
 app.use(errorHandler);
 
