@@ -1,6 +1,8 @@
 const morgan = require('morgan');
 const fs = require('fs');
 const path = require('path');
+const winston = require('winston');
+
 
 //this creates a writeable stream that logs requests to a file.
 const accessLogStream = fs.createWriteStream(path.join(__dirname, '../../logs/access.log'),{
@@ -8,7 +10,24 @@ const accessLogStream = fs.createWriteStream(path.join(__dirname, '../../logs/ac
     flags: 'a',
 });
 
-//this is setting up morgan middleware.
-const logger = morgan('combined', { stream: accessLogStream });
+const logger = winston.createLogger({
+    level: 'info',
+    format: winston.format.combine(
+        winston.format.timestamp(),
+        winston.format.printf(({timestamp, level, message}) =>{
+                return `${timestamp} [${level.toUpperCase()}]: ${message}`;
+            })
+    ),
+    transports: [
+        //logs to console
+        new winston.transports.Console(),
+        //logs to file
+        new winston.transports.File({ filename: path.join(__dirname, '../../logs/app.log')}),
+    ],
+});
 
-module.exports = logger;
+
+//this is setting up morgan middleware.
+const httpLogger = morgan('combined', { stream: accessLogStream });
+
+module.exports = {logger, httpLogger};
