@@ -1,5 +1,5 @@
 const express = require('express');
-
+const authRoutes = require('./routes/authRoutes');
 //imports connect database function from config/db.
 const {connectDB} = require('./config/db');
 
@@ -24,6 +24,10 @@ app.get('/', (req, res) => {
     logger.info('GET / endpoint hit');
     res.send('API is working...');
 });
+
+//real routes below this line.
+//
+app.use('/api/auth', authRoutes);
 
 //connect to the database
 connectDB();

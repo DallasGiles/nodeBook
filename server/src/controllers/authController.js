@@ -25,10 +25,16 @@ const signUp = async (req, res) => {
     = req.body;
 
     try {
+
+        console.log('Incoming data:', { username, email });
+
         const existingUser = await User.findOne(
             { 
-                $or: [{email }, {username }] 
+                $or: [{ email }, { username }] 
         });
+
+        console.log('Existing user found:', existingUser);
+        
         if (existingUser){
             return res.status(400).json({error: 'email or username is alredy in use'});
         }
