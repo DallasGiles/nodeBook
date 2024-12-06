@@ -1,6 +1,11 @@
 const express = require('express');
+
 //imports connect database function from config/db.
 const {connectDB} = require('./config/db');
+
+//import logger and http logger from logger.js
+const {httpLogger, logger } = require('./config/logger');
+
 
 require('dotenv').config();
 
@@ -11,9 +16,12 @@ const app = express();
 //
 //this will parse JSON payloads.
 app.use(express.json());
+// will log http requests
+app.use(httpLogger);
 
 //basic testing route
 app.get('/', (req, res) => {
+    logger.info('GET / endpoint hit');
     res.send('API is working...');
 });
 
