@@ -1,11 +1,12 @@
 const express = require('express');
 const authRoutes = require('./routes/authRoutes');
+const authMiddleware = require('./middlewares/authMiddleware');
+const errorHandler = require('./middlewares/errorHandler');
 //imports connect database function from config/db.
 const {connectDB} = require('./config/db');
 
 //import logger and http logger from logger.js
 const {httpLogger, logger } = require('./config/logger');
-
 
 require('dotenv').config();
 
@@ -28,6 +29,13 @@ app.get('/', (req, res) => {
 //real routes below this line.
 //
 app.use('/api/auth', authRoutes);
+
+app.get('/api/protected', authMiddleware, (req, res) => {
+    res.json({ message: 'You have accessed a protected route', user: req.user });
+  });
+
+//error handler must be the last middleware listed
+app.use(errorHandler);
 
 //connect to the database
 connectDB();
