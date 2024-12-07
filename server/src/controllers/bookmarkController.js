@@ -4,7 +4,7 @@ const Bookmark = require('../models/Bookmark');
 // POST via /api/bookmarks
 
 const createBookmark = async (req, res) => {
-    //
+    //defines the bookmark.
     const { url, title, description, tags, privacy } = req.body;
 
     try {
@@ -124,6 +124,7 @@ const repostBookmark = async (req, res) => {
 module.exports = {
     createBookmark,
     getUserBookmarks,
+    updateBookmark,
     deleteBookmark,
     repostBookmark,
 };
