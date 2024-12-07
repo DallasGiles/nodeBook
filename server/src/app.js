@@ -1,7 +1,16 @@
 const express = require('express');
+
+//routes
+//
 const authRoutes = require('./routes/authRoutes');
+const bookmarkRoutes = require('./routes/bookmarkRoutes');
+
+//middlewares
+//
 const authMiddleware = require('./middlewares/authMiddleware');
 const errorHandler = require('./middlewares/errorHandler');
+
+
 //imports connect database function from config/db.
 const {connectDB} = require('./config/db');
 
@@ -29,6 +38,9 @@ app.get('/', (req, res) => {
 //real routes below this line.
 //
 app.use('/api/auth', authRoutes);
+
+app.use('/api/bookmarks', bookmarkRoutes);
+
 
 app.get('/api/protected', authMiddleware, (req, res) => {
     res.json({ message: 'You have accessed a protected route', user: req.user });
