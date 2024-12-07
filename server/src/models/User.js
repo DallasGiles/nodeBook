@@ -4,7 +4,7 @@ const mongoose = require('mongoose');
 const userSchema = new mongoose.Schema(
     {
         username: {
-            type: String,
+            type: String, 
             required: true,
             unique: true,
             trim: true, //trim will remove extra spaces
