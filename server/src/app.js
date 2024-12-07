@@ -10,6 +10,7 @@ const federationRoutes = require('./routes/federationRoutes');
 //
 const authMiddleware = require('./middlewares/authMiddleware');
 const errorHandler = require('./middlewares/errorHandler');
+const { apiRateLimiter, authRateLimiter } = require('./middlewares/rateLimiter');
 
 
 //imports connect database function from config/db.
@@ -36,9 +37,16 @@ app.get('/', (req, res) => {
     res.send('API is working...');
 });
 
+
+//API use limits here
+app.use('/api', apiRateLimiter);
+
 //real routes below this line.
 //
 app.use('/api/auth', authRoutes);
+
+app.use('api/auth/login', authRateLimiter);
+app.use('api/auth/signup', authRateLimiter);
 
 app.use('/api/bookmarks', bookmarkRoutes);
 
