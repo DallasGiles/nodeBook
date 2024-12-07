@@ -4,6 +4,7 @@ const express = require('express');
 //
 const authRoutes = require('./routes/authRoutes');
 const bookmarkRoutes = require('./routes/bookmarkRoutes');
+const federationRoutes = require('./routes/federationRoutes');
 
 //middlewares
 //
@@ -40,6 +41,8 @@ app.get('/', (req, res) => {
 app.use('/api/auth', authRoutes);
 
 app.use('/api/bookmarks', bookmarkRoutes);
+
+app.use('/api/federation', federationRoutes);
 
 
 app.get('/api/protected', authMiddleware, (req, res) => {
