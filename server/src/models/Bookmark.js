@@ -33,9 +33,9 @@ const bookmarkSchema = new mongoose.Schema(
             required: true,
         },
         repostedFrom: {
-            type: mongoose.Schema.type.ObjectId,
+            type: mongoose.Schema.Types.ObjectId,
             ref: 'Bookmark', // this will refrence the original bookmark.
-            default: 'null', //this will be null for original bookmarks, will update on not original.
+            default: null, //this will be null for original bookmarks, will update on not original.
         },
         isRepost: {
             type: Boolean,

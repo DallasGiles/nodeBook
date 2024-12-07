@@ -1,27 +1,34 @@
 const mongoose = require('mongoose');
-//loads the dotenv file refrenced in the root project.
 require('dotenv').config();
 
 const connectDB = async () => {
-    try{
-        //attempts to connect to DB using .env file pathway.
-        const connectData = await mongoose.connect(process.env.MONGO_URI,{
-            //ensures proper connection to DB.
-            useNewUrlParser: true,
+  if (mongoose.connection.readyState > 0) {
+    console.log('MongoDB already connected.');
+    return mongoose.connection;
+  }
 
-            //allows a new connection management engine.
-            useUnifiedTopology: true,
-        });
-        console.log(`mongoDB Connected: ${connectData.connection.host}`);
-    } catch(error){
+  const mongoURI = process.env.NODE_ENV === 'test'
+    ? 'mongodb://localhost:27017/testDB'
+    : process.env.MONGO_URI;
 
-        console.error(`Error: ${error.message}`);
-
-        //if connection fails this will exit the application.
-        process.exit(1);
-    }
+  try {
+    const connectData = await mongoose.connect(mongoURI, {
+      useNewUrlParser: true,
+      useUnifiedTopology: true,
+    });
+    console.log(`MongoDB Connected: ${connectData.connection.host}`);
+    return connectData;
+  } catch (error) {
+    console.error(`Error: ${error.message}`);
+    if (process.env.NODE_ENV !== 'test') process.exit(1);
+  }
 };
 
-console.log('mongoURI:', process.env.MONGO_URI);
+const closeDB = async () => {
+  if (mongoose.connection.readyState > 0) {
+    await mongoose.connection.close();
+    console.log('MongoDB connection closed.');
+  }
+};
 
-module.exports = {connectDB, };
+module.exports = { connectDB, closeDB };
