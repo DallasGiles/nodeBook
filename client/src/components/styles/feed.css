@@ -81,62 +81,6 @@
   align-items: center;
 }
 
-.like-button {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  border-radius: 10px;
-  border: none;
-  background-color: transparent;
-  position: relative;
-  outline: none;
-}
-.like-button:hover > .icon {
-  transform: scale(1.2);
-  cursor: pointer;
-  transition: .2s linear;
-}
-.like-button:focus,
-.like-button:active {
-  background-color: transparent; /* Prevent background from changing */
-}
-.like-button:focus > .icon {
-  fill: #fd1853;
-  animation: grosseur .2s linear;
-}
-@keyframes grosseur {
-  0% {
-    width: 50px;
-    height: 50px;
-    fill: #fd1853;
-  }
-
-  100% {
-    width: 30px;
-    height: 30px;
-    fill: #fd1853;
-  }
-}
-
-.repost-button {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 40px;
-  height: 40px;
-  border-radius: 10px;
-  border: 1px solid #16a085;
-  background-color: transparent;
-  color: #16a085;
-  cursor: pointer;
-  transition: all 0.3s ease;
-}
-
-.repost-button:hover {
-  background-color: #16a085;
-  color: #fff;
-}
-
 /* Comments Section */
 .comments-section {
   padding: 10px 15px;
